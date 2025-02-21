@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract GuessTheNumber {
+    uint256 private winningNumber = 7; // Predefined winning number
+    address public winner;
+    uint256 public prizeAmount;
+
+    function guessNumber(uint256 _guess) public {
+        require(winner == address(0), "Game over, winner already chosen.");
+        require(_guess == winningNumber, "Wrong guess, try again!");
+
+        winner = msg.sender;
+        prizeAmount = address(this).balance;
+        payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function depositPrize() public payable {}
+
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+}
